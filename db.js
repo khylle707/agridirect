@@ -1,13 +1,12 @@
-// Updated db.js
 const mysql = require('mysql2');
-require('dotenv').config(); // This is necessary to read your .env file
+require('dotenv').config(); 
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '', 
   database: process.env.DB_NAME || 'agridirect_db',
-  port: process.env.DB_PORT || 3306 // Change to 3306 if XAMPP default is used
+  port: process.env.DB_PORT || 3306 
 });
 
 connection.connect((err) => {
