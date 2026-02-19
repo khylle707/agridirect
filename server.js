@@ -65,21 +65,28 @@ app.get('/logistics/:market_id', (req, res) => {
   });
 });
 
-// 4. Get Market Demand & Stock 
-//  GET ALL MARKETS
-app.get('/markets', (req, res) => {
-  db.query('SELECT * FROM markets', (err, results) => {
+// 4. Get Market Demand & Stock
+// GET ALL MARKET STATUSES
+app.get('/market-statuses', (req, res) => {
+  const sql = `
+    SELECT p.name as produce_name, pr.demand_level, pr.stock_quantity 
+    FROM prices pr 
+    JOIN produce p ON pr.produce_id = p.id`;
+    
+  db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(results); 
+    res.json(results);
   });
 });
 
-//  GET SINGLE MARKET
-app.get('/markets/:id', (req, res) => {
-  const marketId = req.params.id;
-  db.query('SELECT * FROM markets WHERE id = ?', [marketId], (err, results) => {
+// GET SINGLE MARKET STATUS 
+app.get('/market-status/:produce_id', (req, res) => {
+  const produceId = req.params.produce_id;
+  const sql = 'SELECT demand_level, stock_quantity FROM prices WHERE produce_id = ?';
+  
+  db.query(sql, [produceId], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(results[0] || { message: "Market not found" }); 
+    res.json(results[0] || { message: "Status not found for this produce" });
   });
 });
 
