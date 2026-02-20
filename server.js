@@ -67,7 +67,7 @@ app.get('/logistics/:market_id', (req, res) => {
 
 // 4. Get Market Demand & Stock
 // GET ALL MARKET STATUSES
-app.get('/market-statuses', (req, res) => {
+app.get('/market-allstatus', (req, res) => {
   const sql = `
     SELECT p.name as produce_name, pr.demand_level, pr.stock_quantity 
     FROM prices pr 
